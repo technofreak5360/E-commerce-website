@@ -1,0 +1,62 @@
+body
+{
+  background-color: skyblue;
+}
+ .main_wrapper
+ {
+   width: 1000px;
+   margin: auto;
+   height: auto;
+ }
+
+ .header_wraper
+ {
+   width: 1000px;
+   height: 100px;
+   margin: auto;
+ }
+ #logo
+ {
+   float: left;
+ }
+ #banner
+ {
+   float: right;
+ }
+.content_wrapper
+{
+  width: 1000px;
+  height: 800px;
+  margin: auto;
+  background-color: pink;
+}
+#content_area
+{
+  width: 800px;
+  height: 800px;
+  float: right;
+  background-color: pink;
+}
+#sidebar
+{
+width: 200px;
+height: 800px;
+background-color: black;
+float: left;
+}
+
+#footer
+{
+  height: 100px;
+  width: 1000px;
+  background-color: grey;
+  clear: both;
+  margin: auto;
+}
+.menuebar
+{
+  width: 1000px;
+  height: 50px;
+  background-color: grey;
+  color: white;
+}
