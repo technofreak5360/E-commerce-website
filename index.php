@@ -48,7 +48,15 @@ include("functions/functions.php");
 </ul>
 </div>
 <div id="content_area">
-this is content area
+  <div id="shopping_cart">
+ <span style="float:right; font-size:17px; padding:5px; line-height:40px;">
+  </div>
+  <div id="products_box">
+
+				<?php getPro(); ?>
+
+
+				</div>
 </div>
 
 </div>
