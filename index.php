@@ -48,6 +48,7 @@ include("functions/functions.php");
 </ul>
 </div>
 <div id="content_area">
+  <?php cart(); ?>
   <div id="shopping_cart">
  <span style="float:right; font-size:17px; padding:5px; line-height:40px;">
   </div>
