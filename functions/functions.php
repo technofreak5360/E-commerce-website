@@ -6,30 +6,33 @@ if (mysqli_connect_errno())
   echo "The Connection was not established: " . mysqli_connect_error();
   }
  // getting the user IP address
-  function getIp() {
-    $ip = $_SERVER['REMOTE_ADDR'];
-
-    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-
-    return $ip;
+ function getUserIP() {
+   if( array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER) && !empty($_SERVER['HTTP_X_FORWARDED_FOR']) ) {
+       if (strpos($_SERVER['HTTP_X_FORWARDED_FOR'], ',')>0) {
+           $addr = explode(",",$_SERVER['HTTP_X_FORWARDED_FOR']);
+           return trim($addr[0]);
+       } else {
+           return $_SERVER['HTTP_X_FORWARDED_FOR'];
+       }
+   }
+   else {
+       return $_SERVER['REMOTE_ADDR'];
+   }
 }
 
 
 //creating the shopping cart
-function cart(){
+function cart()
+{
 
 if(isset($_GET['add_cart'])){
 
 global $con;
 
-$ip = getIp();
+$ip = getUserIP();
 
 $pro_id = $_GET['add_cart'];
-
+$qty=1;
 $check_pro = "select * from cart where ip_add='$ip' AND p_id='$pro_id'";
 
 $run_check = mysqli_query($con, $check_pro);
@@ -41,7 +44,7 @@ echo "";
 }
 else {
 
-$insert_pro = "insert into cart(p_id,ip_add) values ('$pro_id','$ip')";
+$insert_pro = "INSERT INTO cart (p_id, ip_add, qty) VALUES ('$pro_id','$ip', '$qty')";
 
 $run_pro = mysqli_query($con, $insert_pro);
 
@@ -51,6 +54,41 @@ echo "<script>window.open('index.php','_self')</script>";
 }
 
 }
+
+// getting the total added items
+
+ function total_items(){
+
+	if(isset($_GET['add_cart'])){
+
+		global $con;
+
+		$ip = getUserIP();
+
+		$get_items = "select * from cart where ip_add='$ip'";
+
+		$run_items = mysqli_query($con, $get_items);
+
+		$count_items = mysqli_num_rows($run_items);
+
+		}
+
+		else {
+
+		global $con;
+
+		$ip = getUserIP();
+
+		$get_items = "select * from cart where ip_add='$ip'";
+
+		$run_items = mysqli_query($con, $get_items);
+
+		$count_items = mysqli_num_rows($run_items);
+
+		}
+
+	echo $count_items;
+	}
 
 
 // getting Categories
@@ -73,6 +111,47 @@ function getCats(){
 	}
 
 }
+
+
+// Getting the total price of the items in the cart
+
+	function total_price(){
+
+		$total = 0;
+
+		global $con;
+
+		$ip = getUserIP();
+
+		$sel_price = "select * from cart where ip_add='$ip'";
+
+		$run_price = mysqli_query($con, $sel_price);
+
+		while($p_price=mysqli_fetch_array($run_price)){
+
+			$pro_id = $p_price['p_id'];
+
+			$pro_price = "select * from products where product_id='$pro_id'";
+
+			$run_pro_price = mysqli_query($con,$pro_price);
+
+			while ($pp_price = mysqli_fetch_array($run_pro_price)){
+
+			$product_price = array($pp_price['product_price']);
+
+			$values = array_sum($product_price);
+
+			$total +=$values;
+
+			}
+
+
+		}
+
+		echo "$" . $total;
+
+
+	}
 //getting the brands
 function getBrands(){
 

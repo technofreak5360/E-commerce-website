@@ -50,8 +50,13 @@ include("functions/functions.php");
 <div id="content_area">
   <?php cart(); ?>
   <div id="shopping_cart">
- <span style="float:right; font-size:17px; padding:5px; line-height:40px;">
+    <span style="float:right; color:white; font-size:17px; padding:5px; line-height:40px;">
+      welcome Guest <b style="color:yellow;">Shopping cart - </b>Total items:<?php total_items(); ?> Total Price:<?php total_price(); ?> <a style="color:yellow;" href="cart.php">Go to Cart</a>
+
+
+    </span>
   </div>
+
   <div id="products_box">
 
 				<?php getPro(); ?>
