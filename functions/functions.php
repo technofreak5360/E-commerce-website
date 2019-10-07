@@ -25,35 +25,24 @@ if (mysqli_connect_errno())
 function cart()
 {
 
-if(isset($_GET['add_cart'])){
+  if(isset($_GET['add_cart'])){
+  		global $con;
+  		$ip = getUserIP();
+  		$pro_id = $_GET['add_cart'];
+  		$check_pro = "selet * from cart where ip_add='$ip' AND p_id='$pro_id'";
+  		$run_check = mysqli_query($con, $check_pro);
 
-global $con;
+  		if(mysqli_num_rows($run_check)>0){
+  			echo "";
+  		}
+  		else {
+  			$insert_pro = "insert into cart (p_id,ip_add,qty) values ('$pro_id','$ip','1')";
+  			$run_pro = mysqli_query($con, $insert_pro);
+  			echo "<script>window.open('index.php','_self')</script>";
+  		}
+  	}
+  }
 
-$ip = getUserIP();
-
-$pro_id = $_GET['add_cart'];
-$qty=1;
-$check_pro = "select * from cart where ip_add='$ip' AND p_id='$pro_id'";
-
-$run_check = mysqli_query($con, $check_pro);
-
-if(mysqli_num_rows($run_check)>0){
-
-echo "";
-
-}
-else {
-
-$insert_pro = "INSERT INTO cart (p_id, ip_add, qty) VALUES ('$pro_id','$ip', '$qty')";
-
-$run_pro = mysqli_query($con, $insert_pro);
-
-echo "<script>window.open('index.php','_self')</script>";
-}
-
-}
-
-}
 
 // getting the total added items
 
